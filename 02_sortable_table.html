@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Arrays and Displaying Tables</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <h1>Sorting Arrays and Displaying Tables</h1>
+    <p>The map() method is an iterative method. It calls a provided function once for each element in an array and constructs a new array from the results. This can be used to construct HTML code to display the parameters of an array of objects.</p>
+    <p></p>
+    <p>The map() method performs the function it is passed on each index of an array, and returns a new array with those changed values.</p>
+    <p></p>
+    <p>The join() method of an array creates a string of the values in the array, using the string passed into its function argument as the joiner between strings.</p>
+    <p>An HTML data table's contents can be replaced. We reversed our data array, and regenerated the table's contents, making it look like the table's contents flipped.</p>
+
+    <h2 id="rat-message"></h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Index</th>
+                <th> 
+                    <span>Rat's Name</span>
+                    <button
+                        class="table-sorter" data-sort-method="sortRatsByName"
+                    >👆</button>
+                    <button
+                        class="table-sorter" data-sort-method="sortRatsByNameBackwards"
+                    >👇</button>
+                </th>
+                <th>
+                    <span>Rat's Age</span>
+                    <button
+                        class="table-sorter" data-sort-method="sortRatsByAge"
+                    >👆</button>
+                    <button
+                        class="table-sorter" data-sort-method="sortRatsByAgeBackwards"
+                    >👇</button>
+                </th>
+                <th>
+                    <span>Is this rat feral?</span>
+                    <button
+                        class="table-sorter" data-sort-method="sortRatsByFeralState"
+                    >👆</button>
+                    <button
+                        class="table-sorter" data-sort-method="sortRatsByFeralStateBackwards"
+                    >👇</button></th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+            <tr>
+                <th>0</th>
+                <!-- Table Data -->
+                <td>Yuki</td>
+                <td>1</td>
+                <td>No</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div>
+        <button id="reverse">Reverse Rats🐀</button>
+    </div>
+
+    <pre id="output">Nothing yet.</pre>
+    <script src="./02_sortable_table.js"></script>
+</body>
+</html>
