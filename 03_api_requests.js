@@ -74,19 +74,23 @@ var renderPoemString = function (poem) {
     `;
 }
 
-// Performs renderPoemString on each element and joins them together
-var whatToDoWhenWeGetOurData = function (poems, index) {
-    var author = authors[index];
+// Receives the author's position in the authors array and displays the whole list of their poems
+var handleAuthorPoemsLoad = function (poems, authorIndex) {
+    var author = authors[authorIndex];
     console.log('What is data?', poems);
+    // Takes poems from network and attaches them to the author
+    // It replaces the author's array of no poems with their list of poems
     author.poems = poems;
-    tableBody.innerHTML += makeRowStringForAuthor(author, index);
+    // Builds the table's contents
+    tableBody.innerHTML += makeRowStringForAuthor(author, authorIndex);
 }
 
+// 
 var requestPoemsByAuthor = function (author) {
     // This promise will have its data when the resolve function has been called. We are passing this function as the callback argument to our makeNetworkRequest
     return new Promise(function (resolve, reject){
         var authorURL = 'https://poetrydb.org/author/' + author.name;
-        //This returns one array of poems per author. When it resolves, we receive all poems from one author.
+        // This returns one array of poems per author. When it resolves, all poems from that author are passed to the resolve function.
         makeNetworkRequest(authorURL, resolve);
     })
 }
@@ -99,7 +103,8 @@ var allAuthorsLoadedPromise = Promise.all(authorLoadPromises);
 // What to do when they all finish loading, when this ^ one promise resolves.
 // The map method goes through each element of the array in order. Because the Promise is looking at an array that has been mapped, it retains that same order, even though it receives promise resolutions in whatever order the requests complete.
 allAuthorsLoadedPromise.then(function(arrayOfPoems) {
-    arrayOfPoems.forEach(whatToDoWhenWeGetOurData);
+    arrayOfPoems.forEach(handleAuthorPoemsLoad);
+    outputElement.innerHTML = 'Content loaded.'
     // After all the poems have loaded, parse URL and manage state with the loaded data
     parseURL();
 })
@@ -130,6 +135,7 @@ var parseURL = () => {
         if (!author) {
             throw new Error('Unable to find author by name: ' + result.author);
         }
+        // Performs renderPoemString on each element and joins them together
         var authorPoemStrings = author.poems.map(renderPoemString);
         outputElement.innerHTML = authorPoemStrings.join('\n');
     }
