@@ -56,7 +56,6 @@ var makeRowStringForAuthor = function (author, index) {
         <td>${index}</td>
         <td>${author.name}</td>
         <td>${author.poems.length}</td>
-        <td>${author.isFeral ? 'Yes' : 'No'}</td>
         <td><a href="#author=${author.name}">Show Poems</a></td>
     </tr>
     `;
@@ -114,21 +113,25 @@ allAuthorsLoadedPromise.then(function(arrayOfPoems) {
 var parseURL = () => {
     // '#author=William%20Blake&poem=A%20POISON%20TREE&goats=true'
     var hash = window.location.hash;
+    //Split creates an array of everything separated by &
     var segments = hash.replace('#', '').split('&');
     var result = {};
+    // Segments look like: author=William%20Blake
     segments.forEach((segment) => {
+        // decodeURIComponent takes "author=William%20Blake" and gives us "author=William Blake"
         var decodedSegment = decodeURIComponent(segment);
         // This is array destructuring. The split method returns an array and stores the values from the first two items into two newly created variables: propertyName and value.
         // We get: ['author', 'William Blake']
+        // propertyName is author, value is William Blake
         var [propertyName, value] = decodedSegment.split('=');
-        // Dynamic property name access! We are storing a value into our result object, with the destination property (in this case: author, poem) defined by our variable `propertyName`
+        // We store the value, William Blake, into the `result` object we created earlier, and give it a property named for the propertyName, author, that we received in the split. This is called `dynamic property name access`.
         result[propertyName] = value;
     })
     console.log("What is the parsed hash?", result);
     console.log("What is the hash?", hash);
     if (result.author) {
         //Trying to find any author who meets those criteria
-        //Either undefined, or an author object
+        //Either it's undefined, or an author object
         var author = authors.find(function(author){
             return author.name === result.author;
         })
