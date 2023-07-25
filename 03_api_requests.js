@@ -2,23 +2,25 @@ var outputElement = document.getElementById('output');
 var tableBody = document.getElementById('table-body');
 
 // This function invokes the callback function when the json promise is fulfilled
-var makeNetworkRequest = function (url, callback) {
+//
+var makeNetworkRequest = function (url) {
     // Asking the browser to make a network request to this URL
-    // What information is it receiving?
     // It is a query to get information
-    var requestPromise = fetch(url);
+    var requestPromise = fetch(url)
     // This gets called when the network request has started
-    var networkRequestCallback = function (responseObject) {
-        console.log('What is responseObject?', responseObject);
-        //Looks at json, parses it as json, and gives you back JavaScript objects from what it parsed
-        var jsonPromise = responseObject.json();
-        // When that's done, when the promise has resolved, run the callback.
-        jsonPromise.then(callback);
-    }
-    // Handing the network request callback to the promise
     // When the network request promise resolves, this is run
-    // Callback is a function that is passed as an argument to another function, to be run potentially at some point, if at all.
-    requestPromise.then(networkRequestCallback);
+    // .then function creates a new Promise that cannot be resolved until the fetch promise resolves.
+    // We are passing a success callback into the `then` method of the `fetch` promise.
+        .then(function (responseObject) {
+            console.log('What is responseObject?', responseObject);
+            //Looks at json, parses it as json, and gives you back JavaScript objects from what it parsed
+            var jsonPromise = responseObject.json();
+            // The jsonPromise is the return value of this network request success handler. It will resolve at a later point in time, and will be the return value of the variable named requestPromise.
+            // This promise is the return value of the requestPromise above.
+            return jsonPromise;
+        })
+    return requestPromise;
+
 }
 
 var authors = [
@@ -88,13 +90,9 @@ var handleAuthorPoemsLoad = function (poems, authorIndex) {
 // 
 var requestPoemsByAuthor = function (author) {
     // This promise will have its data when the resolve function has been called. We are passing this function as the callback argument to our makeNetworkRequest
-    return new Promise(function (resolve, reject){
-        var authorURL = 'https://poetrydb.org/author/' + author.name;
-        // This returns one array of poems per author. When it resolves, all poems from that author are passed to the resolve function.
-        makeNetworkRequest(authorURL, resolve);
-    })
+    var authorURL = 'https://poetrydb.org/author/' + author.name;
+    return makeNetworkRequest(authorURL);
 }
-
 // For each of the Authors in the authors array, we are going to pass the item into this function as the first arguement
 // This map creates a new array of promises.
 var authorLoadPromises = authors.map(requestPoemsByAuthor);
