@@ -1,6 +1,7 @@
 var outputElement = document.getElementById('output');
 var tableBody = document.getElementById('table-body');
 
+// This function invokes the callback function when the json promise is fulfilled
 var makeNetworkRequest = function (url, callback) {
     // Asking the browser to make a network request to this URL
     // What information is it receiving?

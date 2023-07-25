@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning About Promises</title>
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+    <h1>Learning About Promises</h1>
+    <p>Promises have three states: Pending, Resolved, Rejected. Once a promise has been resolved, it cannot be resolved again, nor can it be rejected, and vice versa. It goes from Pending to one of the other two states, and doesn't change again after that.</p>
+    <div>
+        <button id="create-promise">Create Promise</button>
+        <button id="resolve-promise">Resolve Promise</button>
+        <button id="reject-promise">Reject Promise</button>
+        <input type="text" id="promise-input" />
+    </div>
+
+    <pre id="output"></pre>
+    <script src="./04_promises.js"></script>
+</body>
+</html>

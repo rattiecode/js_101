@@ -62,6 +62,10 @@ h2 {
     font-weight: 400;
 }
 
+pre {
+    font-family: monospace;
+}
+
 .big {
     font-size: 2em;
 }
@@ -104,4 +108,12 @@ td {
   border: 3px solid rgb(209, 163, 54);
   padding: 2rem;
   margin-bottom: 1rem;
+}
+
+.success {
+    color: #9f9;
+}
+
+.error {
+    color: #f99;
 }
