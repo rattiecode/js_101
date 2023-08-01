@@ -86,9 +86,11 @@ var renderAuthorPoemList = function (poems) {
 }
 
 var renderSinglePoemLink = function (poem) {
+    // Need to create a unique ID for each poem, we can do that by using each poem's title
+    // The rendered poem is injected after the `a` tag because the `a` tag is a child of the `li`. The innerHTML += below adds it to the end of the `a` because it's inside the `li`.
     return `
-    <li class="poem-link">
-        <a href="#author=${poem.author}&poem=${poem.title}">${poem.title}</a>
+    <li class="poem-link" id="${poem.title}">
+        <p><a href="#author=${poem.author}&poem=${poem.title}">${poem.title}</a></p>
     </li>
     `
 }
@@ -165,7 +167,8 @@ var parseURL = () => {
                 return poem.title === result.poem;
             })
             if (poem) {
-                outputElement.innerHTML += renderPoemString(poem);
+                var poemListItem = document.getElementById(poem.title);
+                poemListItem.innerHTML += renderPoemString(poem);
             }
         }
     }
