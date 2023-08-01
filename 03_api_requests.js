@@ -169,6 +169,7 @@ var parseURL = () => {
             if (poem) {
                 var poemListItem = document.getElementById(poem.title);
                 poemListItem.innerHTML += renderPoemString(poem);
+                poemListItem.scrollIntoView();
             }
         }
     }
