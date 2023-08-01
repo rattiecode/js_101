@@ -99,6 +99,8 @@ var renderSinglePoemLink = function (poem) {
 var handleAuthorPoemsLoad = function (poems, authorIndex) {
     var author = authors[authorIndex];
     console.log('What is data?', poems);
+    // Sorts poems alphabetically by title
+    poems.sort(function (a, b) { return a.title.localeCompare(b.title) });
     // Takes poems from network and attaches them to the author
     // It replaces the author's array of no poems with their list of poems
     author.poems = poems;
