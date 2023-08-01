@@ -76,6 +76,23 @@ var renderPoemString = function (poem) {
     `;
 }
 
+
+var renderAuthorPoemList = function (poems) {
+    return `
+    <ul class="poem-list">
+        ${poems.map(renderSinglePoemLink).join("\n")}
+    </ul>
+    `
+}
+
+var renderSinglePoemLink = function (poem) {
+    return `
+    <li class="poem-link">
+        <a href="#author=${poem.author}&poem=${poem.title}">${poem.title}</a>
+    </li>
+    `
+}
+
 // Receives the author's position in the authors array and displays the whole list of their poems
 var handleAuthorPoemsLoad = function (poems, authorIndex) {
     var author = authors[authorIndex];
@@ -116,6 +133,7 @@ var parseURL = () => {
     var segments = hash.replace('#', '').split('&');
     var result = {};
     // Segments look like: author=William%20Blake
+    // ['author=William%20Blake', 'poem=A%20POISON%20TREE', 'goats=true']
     segments.forEach((segment) => {
         // decodeURIComponent takes "author=William%20Blake" and gives us "author=William Blake"
         var decodedSegment = decodeURIComponent(segment);
@@ -138,8 +156,18 @@ var parseURL = () => {
             throw new Error('Unable to find author by name: ' + result.author);
         }
         // Performs renderPoemString on each element and joins them together
-        var authorPoemStrings = author.poems.map(renderPoemString);
-        outputElement.innerHTML = authorPoemStrings.join('\n');
+        //var authorPoemStrings = author.poems.map(renderPoemString);
+        //outputElement.innerHTML = authorPoemStrings.join('\n');
+        var poemLinks = renderAuthorPoemList(author.poems);
+        outputElement.innerHTML = poemLinks;
+        if (result.poem) {
+            var poem = author.poems.find(function (poem){
+                return poem.title === result.poem;
+            })
+            if (poem) {
+                outputElement.innerHTML += renderPoemString(poem);
+            }
+        }
     }
 }
 
